@@ -1,136 +1,479 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>화학 반응식 만들기</title>
-<style>*{box-sizing:border-box;margin:0;padding:0;}body{font-family:'Segoe UI','Apple SD Gothic Neo',sans-serif;background:#0f172a;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:28px 16px 48px;}h1{color:#e2e8f0;font-size:1.35rem;font-weight:700;margin-bottom:4px;text-align:center;}.subtitle{color:#64748b;font-size:0.82rem;margin-bottom:24px;text-align:center;}.prob-nav{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:28px;}.btn-prob{background:#1e293b;color:#64748b;border:1.5px solid #334155;padding:8px 18px;font-size:0.82rem;border-radius:10px;cursor:pointer;font-weight:600;transition:all .2s;}.btn-prob:hover{background:#334155;color:#e2e8f0;}.btn-prob.active{background:#6366f1;color:#fff;border-color:#6366f1;}.btn-prob.done{border-color:#0d9488;color:#14b8a6;}.btn-prob.done.active{background:#0d9488;color:#fff;border-color:#0d9488;}.card{width:100%;max-width:640px;background:#1e293b;border:1.5px solid #334155;border-radius:20px;padding:28px 24px;}.level-badge{display:inline-block;font-size:0.7rem;font-weight:700;letter-spacing:.05em;border-radius:999px;padding:3px 12px;margin-bottom:12px;}.lv1{background:rgba(16,185,129,.15);color:#34d399;border:1px solid #10b981;}.lv2{background:rgba(59,130,246,.15);color:#60a5fa;border:1px solid #3b82f6;}.lv3{background:rgba(168,85,247,.15);color:#c084fc;border:1px solid #a855f7;}.lv4{background:rgba(245,158,11,.15);color:#fbbf24;border:1px solid #f59e0b;}.lv5{background:rgba(239,68,68,.15);color:#f87171;border:1px solid #ef4444;}.reaction-title{color:#e2e8f0;font-size:1.05rem;font-weight:700;margin-bottom:6px;}.reaction-desc{color:#94a3b8;font-size:0.83rem;margin-bottom:20px;line-height:1.6;}.steps{display:flex;margin-bottom:24px;}.step-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;position:relative;}.step-item:not(:last-child)::after{content:'';position:absolute;top:13px;left:50%;width:100%;height:2px;background:#334155;z-index:0;}.step-dot{width:26px;height:26px;border-radius:50%;font-size:.75rem;font-weight:700;display:flex;align-items:center;justify-content:center;border:2px solid #334155;background:#0f172a;color:#475569;position:relative;z-index:1;transition:all .3s;}.step-dot.active{border-color:#6366f1;color:#a5b4fc;background:#1e1b4b;}.step-dot.done{border-color:#0d9488;background:#0d9488;color:#fff;}.step-label{font-size:.65rem;color:#475569;text-align:center;font-weight:600;}.step-label.active{color:#a5b4fc;}.step-label.done{color:#14b8a6;}.panel-title{color:#94a3b8;font-size:.8rem;font-weight:700;margin-bottom:14px;letter-spacing:.04em;}.substance-row{display:flex;align-items:center;gap:12px;margin-bottom:12px;background:#0f172a;border:1.5px solid #334155;border-radius:12px;padding:14px 16px;flex-wrap:wrap;}.substance-name{color:#e2e8f0;font-size:.95rem;font-weight:700;}.substance-role{font-size:.7rem;color:#475569;font-weight:600;margin-top:2px;}.choices{display:flex;gap:6px;flex-wrap:wrap;}.choice-btn{background:#1e293b;color:#94a3b8;border:1.5px solid #334155;padding:6px 14px;border-radius:8px;font-size:.9rem;font-weight:700;cursor:pointer;transition:all .2s;}.choice-btn:hover{background:#334155;color:#e2e8f0;}.choice-btn.wrong{background:#450a0a;border-color:#ef4444;color:#fca5a5;}.formula-chosen{font-size:1rem;font-weight:800;color:#6ee7b7;background:#064e3b;border:1.5px solid #10b981;border-radius:8px;padding:5px 14px;}.arrange-area{background:#0f172a;border:1.5px solid #334155;border-radius:14px;padding:18px;margin-bottom:14px;}.arrange-label{font-size:.75rem;color:#64748b;font-weight:600;margin-bottom:10px;}.drop-zones{display:flex;align-items:center;gap:8px;flex-wrap:wrap;min-height:52px;}.drop-zone{min-width:72px;min-height:48px;border:2px dashed #334155;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:800;color:#64748b;transition:all .2s;cursor:pointer;padding:6px 12px;background:#0f172a;}.drop-zone.ready{border-color:#6366f1;color:#a5b4fc;}.drop-zone.filled{border:2px solid #0d9488;background:#042f2e;color:#6ee7b7;cursor:default;}.plus-sym{color:#64748b;font-size:1.1rem;font-weight:700;}.arrow-sym{color:#6366f1;font-size:1.4rem;font-weight:900;padding:0 4px;}.drag-bank{display:flex;gap:8px;flex-wrap:wrap;background:#0f172a;border:1.5px solid #1e293b;border-radius:12px;padding:12px;margin-top:4px;}.drag-token{background:#1e293b;border:1.5px solid #334155;color:#c7d2fe;padding:7px 16px;border-radius:9px;font-size:.95rem;font-weight:800;cursor:pointer;transition:all .2s;user-select:none;}.drag-token:hover{background:#312e81;border-color:#6366f1;}.drag-token.selected-token{background:#312e81;border-color:#a78bfa;box-shadow:0 0 0 2px #6366f1;}.drag-token.used{opacity:.3;cursor:not-allowed;pointer-events:none;}.eq-display{display:flex;align-items:center;gap:8px;flex-wrap:wrap;background:#0f172a;border:1.5px solid #334155;border-radius:14px;padding:18px;margin-bottom:14px;justify-content:center;}.coeff-block{display:flex;align-items:center;gap:3px;}.coeff-input{width:40px;height:40px;background:#1e293b;border:1.5px solid #334155;border-radius:8px;color:#e2e8f0;font-size:1rem;font-weight:800;text-align:center;outline:none;transition:all .2s;}.coeff-input:focus{border-color:#6366f1;background:#1e1b4b;}.coeff-input.correct-c{border-color:#10b981;background:#064e3b;color:#6ee7b7;}.coeff-input.wrong-c{border-color:#ef4444;background:#450a0a;color:#f87171;}.formula-label{font-size:1.05rem;font-weight:800;color:#e2e8f0;}.hint-box{background:#0f172a;border:1.5px dashed #334155;border-radius:10px;padding:10px 14px;font-size:.78rem;color:#64748b;margin-bottom:12px;line-height:1.6;}.feedback{margin-top:12px;padding:12px 16px;border-radius:10px;font-size:.85rem;font-weight:600;line-height:1.6;display:none;}.feedback.ok{background:rgba(16,185,129,.12);border:1px solid #10b981;color:#6ee7b7;}.feedback.err{background:rgba(239,68,68,.1);border:1px solid #ef4444;color:#fca5a5;}.btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;}button{border:none;cursor:pointer;border-radius:12px;font-size:.9rem;font-weight:700;transition:all .2s;padding:11px 24px;}.btn-check{background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;box-shadow:0 4px 16px rgba(99,102,241,.3);}.btn-check:hover{transform:translateY(-2px);}.btn-next{background:linear-gradient(135deg,#0d9488,#0891b2);color:#fff;}.btn-next:hover{transform:translateY(-2px);}.btn-retry{background:#1e293b;color:#94a3b8;border:1.5px solid #334155;}.btn-retry:hover{background:#334155;}.final-eq{font-size:1.2rem;font-weight:800;color:#e2e8f0;text-align:center;background:#0f172a;border:1.5px solid #0d9488;border-radius:14px;padding:20px;margin-bottom:18px;}.summary-box{background:#0f172a;border:1.5px solid #334155;border-radius:12px;padding:16px;font-size:.82rem;color:#94a3b8;line-height:1.9;}.summary-box strong{color:#e2e8f0;}</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>화학식 학습 카드</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', 'Apple SD Gothic Neo', sans-serif;
+      background: #0f172a;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    h1 {
+      color: #e2e8f0;
+      font-size: 1.4rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      margin-bottom: 6px;
+      text-align: center;
+    }
+
+    .subtitle {
+      color: #64748b;
+      font-size: 0.85rem;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    /* Category filter */
+    .category-wrap {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      justify-content: center;
+      max-width: 520px;
+      margin-bottom: 20px;
+    }
+    .btn-cat {
+      background: #1e293b;
+      color: #64748b;
+      border: 1.5px solid #334155;
+      padding: 6px 14px;
+      font-size: 0.75rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-weight: 600;
+    }
+    .btn-cat:hover { background: #334155; color: #e2e8f0; }
+    .btn-cat.active {
+      background: #0e7490;
+      color: #fff;
+      border-color: #0e7490;
+    }
+
+    /* Mode toggle */
+    .mode-wrap {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+    .btn-mode {
+      background: #1e293b;
+      color: #64748b;
+      border: 1.5px solid #334155;
+      padding: 8px 18px;
+      font-size: 0.8rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .btn-mode.active {
+      background: #6366f1;
+      color: #fff;
+      border-color: #6366f1;
+    }
+
+    /* Progress */
+    .progress-bar-wrap {
+      width: 100%;
+      max-width: 480px;
+      background: #1e293b;
+      border-radius: 999px;
+      height: 6px;
+      margin-bottom: 10px;
+      overflow: hidden;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #6366f1, #a78bfa);
+      border-radius: 999px;
+      transition: width 0.4s ease;
+    }
+    .progress-label {
+      color: #94a3b8;
+      font-size: 0.8rem;
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    /* Card */
+    .card-scene {
+      width: 340px;
+      height: 230px;
+      perspective: 900px;
+      cursor: pointer;
+      margin-bottom: 32px;
+    }
+
+    .card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d;
+      transition: transform 0.65s cubic-bezier(0.4, 0.2, 0.2, 1);
+    }
+
+    .card-inner.flipped {
+      transform: rotateY(180deg);
+    }
+
+    .card-face {
+      position: absolute;
+      inset: 0;
+      border-radius: 20px;
+      backface-visibility: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+      padding: 20px;
+    }
+
+    /* Front */
+    .card-front {
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+      border: 1.5px solid #334155;
+    }
+    .card-front .cat-badge {
+      font-size: 0.7rem;
+      color: #94a3b8;
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 999px;
+      padding: 2px 10px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      margin-bottom: 4px;
+    }
+    .card-front .formula {
+      font-size: 3.6rem;
+      font-weight: 800;
+      color: #e2e8f0;
+      line-height: 1.1;
+      letter-spacing: -1px;
+      text-align: center;
+    }
+    .card-front .hint {
+      font-size: 0.75rem;
+      color: #475569;
+      margin-top: 6px;
+    }
+
+    /* Back */
+    .card-back {
+      transform: rotateY(180deg);
+      background: linear-gradient(135deg, #134e4a 0%, #0f172a 100%);
+      border: 1.5px solid #0d9488;
+    }
+    .card-back .cat-badge {
+      font-size: 0.7rem;
+      color: #5eead4;
+      background: rgba(13,148,136,0.15);
+      border: 1px solid #0d9488;
+      border-radius: 999px;
+      padding: 2px 10px;
+      font-weight: 600;
+    }
+    .card-back .formula-sm {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: #99f6e4;
+      letter-spacing: -0.5px;
+    }
+    .card-back .name-ko {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: 0.02em;
+      text-align: center;
+    }
+    .card-back .name-en {
+      font-size: 0.82rem;
+      color: #5eead4;
+      font-weight: 500;
+    }
+    .card-back .desc {
+      font-size: 0.73rem;
+      color: #64748b;
+      text-align: center;
+      line-height: 1.5;
+      margin-top: 2px;
+    }
+
+    /* Controls */
+    .controls {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    button {
+      border: none;
+      cursor: pointer;
+      border-radius: 12px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: all 0.2s;
+      padding: 12px 28px;
+    }
+
+    .btn-flip {
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      color: #fff;
+      box-shadow: 0 4px 20px rgba(99,102,241,0.35);
+    }
+    .btn-flip:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(99,102,241,0.45);
+    }
+
+    .btn-nav {
+      background: #1e293b;
+      color: #94a3b8;
+      border: 1.5px solid #334155;
+      padding: 12px 18px;
+      font-size: 1.1rem;
+    }
+    .btn-nav:hover { background: #334155; color: #e2e8f0; }
+    .btn-nav:disabled { opacity: 0.3; cursor: not-allowed; transform: none; }
+
+    /* Dots */
+    .dots {
+      display: flex;
+      gap: 5px;
+      flex-wrap: wrap;
+      justify-content: center;
+      max-width: 420px;
+      margin-top: 24px;
+    }
+    .dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: #1e293b;
+      border: 1.5px solid #334155;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .dot.seen { background: #0d9488; border-color: #14b8a6; }
+    .dot.current { background: #a78bfa; border-color: #a78bfa; transform: scale(1.3); }
+
+    .tip {
+      color: #475569;
+      font-size: 0.75rem;
+      margin-top: 12px;
+      text-align: center;
+    }
+  </style>
 </head>
 <body>
-<h1>⚗️ 화학 반응식 만들기</h1>
-<p class="subtitle">단계별로 직접 화학 반응식을 완성해 보세요</p>
-<div class="prob-nav" id="probNav"></div>
-<div class="card" id="mainCard"></div>
-<script>var P=[
-{id:1,level:'lv1',levelTxt:'난이도 ★☆☆☆☆',title:'물의 생성',desc:'수소 기체와 산소 기체가 반응하여 물이 생성됩니다.\n발열 반응으로, 에너지를 방출합니다.',reactants:[{name:'수소',role:'반응물',answer:'H₂',choices:['H','H₂','He','H₂O']},{name:'산소',role:'반응물',answer:'O₂',choices:['O','O₂','O₃','OH']}],products:[{name:'물',role:'생성물',answer:'H₂O',choices:['HO','OH','H₂O','H₂O₂']}],lo:['H₂','O₂'],ro:['H₂O'],coeff:{'H₂':2,'O₂':1,'H₂O':2},final:'2H₂ + O₂ → 2H₂O',hint:'H₂ 한 분자에 H가 2개, H₂O에도 H가 2개입니다. H₂O를 2개 만들려면 H₂가 몇 개 필요할까요?'},
-{id:2,level:'lv2',levelTxt:'난이도 ★★☆☆☆',title:'탄소의 연소',desc:'탄소가 산소와 반응하면 이산화 탄소가 생성됩니다.\n나무나 석탄이 타는 반응과 유사합니다.',reactants:[{name:'탄소',role:'반응물',answer:'C',choices:['C','CO','Ca','CH₄']},{name:'산소',role:'반응물',answer:'O₂',choices:['O','O₂','O₃','CO₂']}],products:[{name:'이산화 탄소',role:'생성물',answer:'CO₂',choices:['CO','CO₂','C₂O','C₂O₄']}],lo:['C','O₂'],ro:['CO₂'],coeff:{'C':1,'O₂':1,'CO₂':1},final:'C + O₂ → CO₂',hint:'C 1개, O₂ 1개가 반응해 CO₂ 1개가 됩니다. 계수가 모두 1이에요.'},
-{id:3,level:'lv3',levelTxt:'난이도 ★★★☆☆',title:'산화 마그네슘 생성',desc:'마그네슘이 공기 중 산소와 반응하면 밝은 빛을 내며 탑니다.\n마그네슘 리본 연소 실험에서 볼 수 있습니다.',reactants:[{name:'마그네슘',role:'반응물',answer:'Mg',choices:['Mg','Mn','MgO','Mg₂']},{name:'산소',role:'반응물',answer:'O₂',choices:['O','O₂','O₃','MgO']}],products:[{name:'산화 마그네슘',role:'생성물',answer:'MgO',choices:['MgO₂','Mg₂O','MgO','Mg(OH)₂']}],lo:['Mg','O₂'],ro:['MgO'],coeff:{'Mg':2,'O₂':1,'MgO':2},final:'2Mg + O₂ → 2MgO',hint:'O₂ 한 분자에 O가 2개입니다. MgO를 2개 만들면 O가 2개 필요하니 O₂ 1개면 돼요.'},
-{id:4,level:'lv4',levelTxt:'난이도 ★★★★☆',title:'철의 산화',desc:'철이 산소와 반응하면 붉은 녹인 산화 철(III)이 생성됩니다.\n철이 서서히 녹스는 과정과 같은 반응입니다.',reactants:[{name:'철',role:'반응물',answer:'Fe',choices:['F','Fe','Fr','FeO']},{name:'산소',role:'반응물',answer:'O₂',choices:['O','O₂','O₃','FeO']}],products:[{name:'산화 철(III)',role:'생성물',answer:'Fe₂O₃',choices:['FeO','Fe₂O','Fe₂O₃','Fe₃O₄']}],lo:['Fe','O₂'],ro:['Fe₂O₃'],coeff:{'Fe':4,'O₂':3,'Fe₂O₃':2},final:'4Fe + 3O₂ → 2Fe₂O₃',hint:'Fe₂O₃ 2개 만들면 Fe 4개, O 6개 필요. O₂ 3개면 O 6개 공급 가능해요.'},
-{id:5,level:'lv5',levelTxt:'난이도 ★★★★★',title:'메테인의 완전 연소',desc:'메테인(천연가스)이 산소와 반응하면 이산화 탄소와 물이 생성됩니다.\n가스레인지를 켤 때 일어나는 반응입니다.',reactants:[{name:'메테인',role:'반응물',answer:'CH₄',choices:['C₂H₄','CH₄','CH₃','C₂H₆']},{name:'산소',role:'반응물',answer:'O₂',choices:['O','O₂','O₃','OH']}],products:[{name:'이산화 탄소',role:'생성물',answer:'CO₂',choices:['CO','CO₂','C₂O₄','C₂O']},{name:'물',role:'생성물',answer:'H₂O',choices:['H₂','H₂O₂','H₂O','HO']}],lo:['CH₄','O₂'],ro:['CO₂','H₂O'],coeff:{'CH₄':1,'O₂':2,'CO₂':1,'H₂O':2},final:'CH₄ + 2O₂ → CO₂ + 2H₂O',hint:'C 1개→CO₂ 1개, H 4개→H₂O 2개. 오른쪽 O 총 4개. O₂ 2개면 공급 가능해요.'}
-];
-var S={idx:0,step:1,picked:{},arranged:{left:[],right:[]},selTok:null,done:{}};
-function prob(){return P[S.idx];}
-function render(){renderNav();renderCard();}
-function renderNav(){
-  var n=document.getElementById('probNav');n.innerHTML='';
-  P.forEach(function(p,i){
-    var b=document.createElement('button');
-    b.className='btn-prob'+(S.done[i]?' done':'')+(i===S.idx?' active':'');
-    b.textContent='예제 '+(i+1);
-    b.onclick=(function(x){return function(){S.idx=x;S.step=1;S.picked={};S.arranged={left:[],right:[]};S.selTok=null;render();};})(i);
-    n.appendChild(b);
+
+<h1>🧪 화학식 학습 카드</h1>
+<p class="subtitle">중학교 필수 화학식 &middot; 카드를 클릭하면 이름이 나타납니다</p>
+
+<div class="category-wrap" id="categoryWrap"></div>
+
+<div class="mode-wrap">
+  <button class="btn-mode active" id="modeSeq" onclick="setMode('seq')">순서대로</button>
+  <button class="btn-mode" id="modeShuffle" onclick="setMode('shuffle')">랜덤</button>
+</div>
+
+<div class="progress-bar-wrap">
+  <div class="progress-bar-fill" id="progressFill"></div>
+</div>
+<p class="progress-label" id="progressLabel">1 / 30</p>
+
+<div class="card-scene" onclick="flipCard()">
+  <div class="card-inner" id="cardInner">
+    <div class="card-face card-front">
+      <div class="cat-badge" id="frontCat"></div>
+      <div class="formula" id="frontFormula"></div>
+      <div class="hint">탭하면 이름 확인</div>
+    </div>
+    <div class="card-face card-back">
+      <div class="cat-badge" id="backCat"></div>
+      <div class="formula-sm" id="backFormula"></div>
+      <div class="name-ko" id="backNameKo"></div>
+      <div class="name-en" id="backNameEn"></div>
+      <div class="desc" id="backDesc"></div>
+    </div>
+  </div>
+</div>
+
+<div class="controls">
+  <button class="btn-nav" id="btnPrev" onclick="navigate(-1)">&#9664;</button>
+  <button class="btn-flip" onclick="flipCard()">뒤집기</button>
+  <button class="btn-nav" id="btnNext" onclick="navigate(1)">&#9654;</button>
+</div>
+
+<div class="dots" id="dots"></div>
+<p class="tip">키보드 ← → 로 이동 &nbsp;|&nbsp; 스페이스바로 뒤집기</p>
+
+<script>
+  const all = [
+    // 산화물
+    { cat: '산화물', formula: 'H₂O',   ko: '물',          en: 'Water',            desc: '수소 2개 + 산소 1개' },
+    { cat: '산화물', formula: 'CO₂',   ko: '이산화 탄소',  en: 'Carbon dioxide',   desc: '광합성·호흡의 핵심 물질' },
+    { cat: '산화물', formula: 'CO',    ko: '일산화 탄소',  en: 'Carbon monoxide',  desc: '불완전 연소 시 발생하는 유독 기체' },
+    { cat: '산화물', formula: 'SO₂',   ko: '이산화 황',   en: 'Sulfur dioxide',   desc: '산성비의 원인 물질' },
+    { cat: '산화물', formula: 'NO₂',   ko: '이산화 질소', en: 'Nitrogen dioxide', desc: '대기 오염의 원인 물질' },
+    { cat: '산화물', formula: 'Fe₂O₃', ko: '산화 철(III)', en: 'Iron(III) oxide',  desc: '철이 녹슨 것 (붉은 녹)' },
+    { cat: '산화물', formula: 'CaO',   ko: '산화 칼슘',   en: 'Calcium oxide',    desc: '생석회, 물과 반응하면 소석회가 됨' },
+
+    // 산
+    { cat: '산',     formula: 'HCl',   ko: '염산',        en: 'Hydrochloric acid', desc: '강산, 위산의 주성분' },
+    { cat: '산',     formula: 'H₂SO₄', ko: '황산',        en: 'Sulfuric acid',     desc: '강산, 자동차 배터리에 사용' },
+    { cat: '산',     formula: 'HNO₃',  ko: '질산',        en: 'Nitric acid',       desc: '강산, 비료·폭약 제조에 사용' },
+    { cat: '산',     formula: 'CH₃COOH', ko: '아세트산',  en: 'Acetic acid',       desc: '약산, 식초의 신맛 성분' },
+    { cat: '산',     formula: 'H₂CO₃', ko: '탄산',        en: 'Carbonic acid',     desc: '약산, 탄산음료의 톡 쏘는 맛' },
+
+    // 염기
+    { cat: '염기',   formula: 'NaOH',  ko: '수산화 나트륨', en: 'Sodium hydroxide',   desc: '강염기, 비누·종이 제조에 사용' },
+    { cat: '염기',   formula: 'Ca(OH)₂', ko: '수산화 칼슘', en: 'Calcium hydroxide', desc: '소석회, 시멘트 원료' },
+    { cat: '염기',   formula: 'NH₃',   ko: '암모니아',    en: 'Ammonia',            desc: '약염기, 자극적인 냄새의 기체' },
+    { cat: '염기',   formula: 'KOH',   ko: '수산화 칼륨', en: 'Potassium hydroxide', desc: '강염기, 비누·배터리에 사용' },
+
+    // 염
+    { cat: '염',     formula: 'NaCl',  ko: '염화 나트륨', en: 'Sodium chloride',   desc: '소금, 식용·방부제로 사용' },
+    { cat: '염',     formula: 'CaCO₃', ko: '탄산 칼슘',   en: 'Calcium carbonate', desc: '석회석·대리석·조개껍데기의 성분' },
+    { cat: '염',     formula: 'Na₂CO₃', ko: '탄산 나트륨', en: 'Sodium carbonate', desc: '소다, 세제·유리 제조에 사용' },
+    { cat: '염',     formula: 'NaHCO₃', ko: '탄산수소 나트륨', en: 'Sodium bicarbonate', desc: '베이킹소다, 제빵·제과에 사용' },
+    { cat: '염',     formula: 'CaSO₄', ko: '황산 칼슘',   en: 'Calcium sulfate',   desc: '석고, 건설재료·의료에 사용' },
+
+    // 원소 기체
+    { cat: '원소 기체', formula: 'H₂',  ko: '수소',       en: 'Hydrogen gas',      desc: '가장 가벼운 기체, 미래 연료' },
+    { cat: '원소 기체', formula: 'O₂',  ko: '산소',       en: 'Oxygen gas',        desc: '호흡·연소에 필요한 기체' },
+    { cat: '원소 기체', formula: 'N₂',  ko: '질소',       en: 'Nitrogen gas',      desc: '공기의 78%를 차지하는 기체' },
+    { cat: '원소 기체', formula: 'Cl₂', ko: '염소',       en: 'Chlorine gas',      desc: '황록색 독성 기체, 소독제 원료' },
+
+    // 유기물
+    { cat: '유기물', formula: 'C₆H₁₂O₆', ko: '포도당',  en: 'Glucose',           desc: '생물 에너지의 기본 원료' },
+    { cat: '유기물', formula: 'C₁₂H₂₂O₁₁', ko: '설탕(자당)', en: 'Sucrose',      desc: '포도당 + 과당으로 이루어진 이당류' },
+    { cat: '유기물', formula: 'C₂H₅OH', ko: '에탄올',    en: 'Ethanol',           desc: '알코올 음료·소독제의 주성분' },
+    { cat: '유기물', formula: 'CH₄',   ko: '메테인',     en: 'Methane',           desc: '천연가스의 주성분' },
+    { cat: '유기물', formula: 'C₃H₈',  ko: '프로페인',   en: 'Propane',           desc: '가정용 LPG 가스의 주성분' },
+  ];
+
+  const categories = ['전체', ...new Set(all.map(e => e.cat))];
+  let activeCategory = '전체';
+  let filtered = [...all];
+  let order = filtered.map((_, i) => i);
+  let currentIdx = 0;
+  let flipped = false;
+  let seen = new Set([0]);
+  let mode = 'seq';
+
+  // Build category buttons
+  const catWrap = document.getElementById('categoryWrap');
+  categories.forEach(cat => {
+    const btn = document.createElement('button');
+    btn.className = 'btn-cat' + (cat === '전체' ? ' active' : '');
+    btn.textContent = cat + (cat === '전체' ? ' (' + all.length + ')' : ' (' + all.filter(e => e.cat === cat).length + ')');
+    btn.onclick = () => selectCategory(cat);
+    catWrap.appendChild(btn);
   });
-}
-function renderCard(){
-  var p=prob();
-  document.getElementById('mainCard').innerHTML=
-    '<span class="level-badge '+p.level+'">'+p.levelTxt+'</span>'+
-    '<div class="reaction-title">예제 '+p.id+'. '+p.title+'</div>'+
-    '<div class="reaction-desc">'+p.desc.replace(/\n/g,'<br>')+'</div>'+
-    stepBar()+'<div id="sp"></div>';
-  renderPanel();
-}
-function stepBar(){
-  var L=['화학식 선택','반응식 배치','계수 결정','완성!'],h='<div class="steps">';
-  for(var i=0;i<L.length;i++){
-    var n=i+1,c=n<S.step?'done':n===S.step?'active':'';
-    h+='<div class="step-item"><div class="step-dot '+c+'">'+(n<S.step?'✓':n)+'</div><div class="step-label '+c+'">'+L[i]+'</div></div>';
+
+  function selectCategory(cat) {
+    activeCategory = cat;
+    filtered = cat === '전체' ? [...all] : all.filter(e => e.cat === cat);
+    document.querySelectorAll('.btn-cat').forEach((btn, i) => {
+      btn.classList.toggle('active', categories[i] === cat);
+    });
+    resetDeck();
   }
-  return h+'</div>';
-}
-function renderPanel(){
-  var p=prob(),sp=document.getElementById('sp');
-  if(S.step===1)sp.innerHTML=h1(p);
-  else if(S.step===2)sp.innerHTML=h2(p);
-  else if(S.step===3)sp.innerHTML=h3(p);
-  else sp.innerHTML=h4(p);
-  bind();
-}
-function h1(p){
-  var all=p.reactants.concat(p.products),h='<p class="panel-title">STEP 1 &middot; 각 물질의 화학식을 고르세요</p>';
-  all.forEach(function(s){
-    var ch=S.picked[s.name];
-    h+='<div class="substance-row"><div style="min-width:120px"><div class="substance-name">'+s.name+'</div><div class="substance-role">'+s.role+'</div></div>';
-    if(ch)h+='<div class="formula-chosen">'+ch+'</div>';
-    else{h+='<div class="choices">';s.choices.forEach(function(c){h+='<button class="choice-btn" data-name="'+s.name+'" data-val="'+c+'" data-ans="'+s.answer+'">'+c+'</button>';});h+='</div>';}
-    h+='</div>';
+
+  function resetDeck() {
+    if (mode === 'shuffle') {
+      order = [...Array(filtered.length).keys()].sort(() => Math.random() - 0.5);
+    } else {
+      order = filtered.map((_, i) => i);
+    }
+    currentIdx = 0;
+    flipped = false;
+    seen = new Set([0]);
+    render();
+  }
+
+  function setMode(m) {
+    mode = m;
+    document.getElementById('modeSeq').classList.toggle('active', m === 'seq');
+    document.getElementById('modeShuffle').classList.toggle('active', m === 'shuffle');
+    resetDeck();
+  }
+
+  function render() {
+    const el = filtered[order[currentIdx]];
+    document.getElementById('frontCat').textContent = el.cat;
+    document.getElementById('frontFormula').textContent = el.formula;
+    document.getElementById('backCat').textContent = el.cat;
+    document.getElementById('backFormula').textContent = el.formula;
+    document.getElementById('backNameKo').textContent = el.ko;
+    document.getElementById('backNameEn').textContent = el.en;
+    document.getElementById('backDesc').textContent = el.desc;
+
+    document.getElementById('cardInner').classList.toggle('flipped', flipped);
+
+    const pct = ((currentIdx + 1) / filtered.length * 100).toFixed(0);
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressLabel').textContent = (currentIdx + 1) + ' / ' + filtered.length;
+
+    document.getElementById('btnPrev').disabled = currentIdx === 0;
+    document.getElementById('btnNext').disabled = currentIdx === filtered.length - 1;
+
+    renderDots();
+  }
+
+  function renderDots() {
+    const container = document.getElementById('dots');
+    container.innerHTML = '';
+    for (let i = 0; i < filtered.length; i++) {
+      const d = document.createElement('div');
+      d.className = 'dot' + (seen.has(i) ? ' seen' : '') + (i === currentIdx ? ' current' : '');
+      (function(idx) { d.onclick = function(e) { e.stopPropagation(); goTo(idx); }; })(i);
+      container.appendChild(d);
+    }
+  }
+
+  function flipCard() {
+    flipped = !flipped;
+    document.getElementById('cardInner').classList.toggle('flipped', flipped);
+  }
+
+  function navigate(dir) {
+    const next = currentIdx + dir;
+    if (next < 0 || next >= filtered.length) return;
+    currentIdx = next;
+    flipped = false;
+    seen.add(currentIdx);
+    render();
+  }
+
+  function goTo(i) {
+    currentIdx = i;
+    flipped = false;
+    seen.add(i);
+    render();
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'ArrowRight') navigate(1);
+    else if (e.key === 'ArrowLeft') navigate(-1);
+    else if (e.key === ' ') { e.preventDefault(); flipCard(); }
   });
-  return h+'<div class="feedback" id="fb1"></div><div class="btn-row"><button class="btn-check" id="bC1">확인 &rarr;</button></div>';
-}
-function h2(p){
-  function zones(side,exp){
-    var h='';
-    exp.forEach(function(f,i){
-      var v=S.arranged[side][i]||'';
-      h+='<div class="drop-zone '+(v?'filled':S.selTok?'ready':'')+'" data-side="'+side+'" data-idx="'+i+'">'+(v||'?')+'</div>';
-      if(i<exp.length-1)h+='<span class="plus-sym">+</span>';
-    });
-    return h;
-  }
-  var toks=[],used=S.arranged.left.filter(Boolean).concat(S.arranged.right.filter(Boolean));
-  for(var k in S.picked)toks.push(S.picked[k]);
-  var h='<p class="panel-title">STEP 2 &middot; 화학식을 화살표 앞뒤에 배치하세요</p>';
-  h+='<div class="arrange-area"><div class="arrange-label">반응물 (화살표 왼쪽)</div><div class="drop-zones">'+zones('left',p.lo)+'</div></div>';
-  h+='<div class="arrange-area"><div class="arrange-label">생성물 (화살표 오른쪽)</div><div class="drop-zones">'+zones('right',p.ro)+'</div></div>';
-  h+='<p class="panel-title" style="margin-top:14px;">카드를 먼저 선택한 뒤, 놓을 칸을 클릭하세요</p><div class="drag-bank">';
-  toks.forEach(function(t){h+='<div class="drag-token'+(used.indexOf(t)>=0?' used':'')+(S.selTok===t?' selected-token':'')+'" data-token="'+t+'">'+t+'</div>';});
-  return h+'</div><div class="feedback" id="fb2"></div><div class="btn-row"><button class="btn-check" id="bC2">확인 &rarr;</button><button class="btn-retry" id="bR2">다시 배치</button></div>';
-}
-function h3(p){
-  function blk(arr){
-    var h='';
-    arr.forEach(function(f,i){
-      h+='<div class="coeff-block"><input class="coeff-input" data-f="'+f+'" type="number" min="1" max="10" placeholder="?"><span class="formula-label">'+f+'</span></div>';
-      if(i<arr.length-1)h+='<span class="plus-sym">+</span>';
-    });
-    return h;
-  }
-  return '<p class="panel-title">STEP 3 &middot; 각 화학식 앞의 계수를 입력하세요 (1이어도 입력)</p>'+
-    '<div class="eq-display">'+blk(S.arranged.left)+'<span class="arrow-sym">&rarr;</span>'+blk(S.arranged.right)+'</div>'+
-    '<div class="hint-box">&#128161; 힌트: '+p.hint+'</div>'+
-    '<div class="feedback" id="fb3"></div>'+
-    '<div class="btn-row"><button class="btn-check" id="bC3">확인 &rarr;</button><button class="btn-retry" id="bR3">다시 입력</button></div>';
-}
-function h4(p){
-  var cs='';for(var f in p.coeff)cs+='<div><strong>'+f+'</strong> 앞의 계수: <strong>'+p.coeff[f]+'</strong></div>';
-  var nx=S.idx<P.length-1?'<button class="btn-next" id="bN">다음 예제 &rarr;</button>':'<button class="btn-next" id="bAD">처음으로 돌아가기</button>';
-  return '<p class="panel-title">&#127881; 완성! 화학 반응식을 완성했습니다</p>'+
-    '<div class="final-eq">'+p.final+'</div>'+
-    '<div class="summary-box"><div style="color:#64748b;font-weight:700;margin-bottom:4px;">&#9654; 계수 정리</div>'+cs+
-    '<div style="color:#64748b;font-weight:700;margin-top:10px;margin-bottom:4px;">&#9654; 반응 설명</div>'+
-    '<div>'+p.desc.replace(/\n/g,'<br>')+'</div></div>'+
-    '<div class="btn-row">'+nx+'<button class="btn-retry" id="bRA">이 문제 다시 풀기</button></div>';
-}
-function bind(){
-  document.querySelectorAll('.choice-btn').forEach(function(b){
-    b.addEventListener('click',function(){
-      if(this.dataset.val===this.dataset.ans){S.picked[this.dataset.name]=this.dataset.val;fb('fb1','✅ 정답입니다!','ok');renderPanel();}
-      else{this.classList.add('wrong');var t=this;setTimeout(function(){t.classList.remove('wrong');},700);fb('fb1','❌ 다시 생각해 보세요.','err');}
-    });
-  });
-  var e;
-  e=document.getElementById('bC1');if(e)e.addEventListener('click',function(){var p=prob(),all=p.reactants.concat(p.products);if(!all.every(function(s){return S.picked[s.name];})){fb('fb1','⚠️ 모든 물질의 화학식을 선택해 주세요.','err');return;}S.step=2;render();});
-  document.querySelectorAll('.drag-token').forEach(function(t){t.addEventListener('click',function(){if(this.classList.contains('used'))return;var v=this.dataset.token;S.selTok=(S.selTok===v)?null:v;renderPanel();});});
-  document.querySelectorAll('.drop-zone').forEach(function(z){z.addEventListener('click',function(){if(!S.selTok||this.classList.contains('filled'))return;S.arranged[this.dataset.side][parseInt(this.dataset.idx)]=S.selTok;S.selTok=null;renderPanel();});});
-  e=document.getElementById('bC2');if(e)e.addEventListener('click',function(){var p=prob();if(S.arranged.left.filter(Boolean).length<p.lo.length||S.arranged.right.filter(Boolean).length<p.ro.length){fb('fb2','⚠️ 모든 칸을 채워 주세요.','err');return;}var ok=p.lo.every(function(f,i){return S.arranged.left[i]===f;})&&p.ro.every(function(f,i){return S.arranged.right[i]===f;});if(ok){S.step=3;render();}else fb('fb2','❌ 반응물 또는 생성물의 위치가 맞지 않습니다.','err');});
-  e=document.getElementById('bR2');if(e)e.addEventListener('click',function(){S.arranged={left:[],right:[]};S.selTok=null;renderPanel();});
-  e=document.getElementById('bC3');if(e)e.addEventListener('click',function(){var p=prob(),ok=true;document.querySelectorAll('.coeff-input').forEach(function(inp){var v=parseInt(inp.value),a=p.coeff[inp.dataset.f];inp.classList.remove('correct-c','wrong-c');if(v===a)inp.classList.add('correct-c');else{inp.classList.add('wrong-c');ok=false;}});if(ok){S.done[S.idx]=true;S.step=4;render();}else fb('fb3','❌ 빨간 칸의 계수를 다시 확인해 보세요.','err');});
-  e=document.getElementById('bR3');if(e)e.addEventListener('click',function(){document.querySelectorAll('.coeff-input').forEach(function(i){i.value='';i.classList.remove('correct-c','wrong-c');});var f=document.getElementById('fb3');if(f)f.style.display='none';});
-  e=document.getElementById('bN');if(e)e.addEventListener('click',function(){S.idx++;S.step=1;S.picked={};S.arranged={left:[],right:[]};render();});
-  e=document.getElementById('bAD');if(e)e.addEventListener('click',function(){S.idx=0;S.step=1;S.picked={};S.arranged={left:[],right:[]};S.done={};render();});
-  e=document.getElementById('bRA');if(e)e.addEventListener('click',function(){S.step=1;S.picked={};S.arranged={left:[],right:[]};render();});
-}
-function fb(id,msg,type){var el=document.getElementById(id);if(!el)return;el.textContent=msg;el.className='feedback '+type;el.style.display='block';}
-render();</script>
+
+  render();
+</script>
 </body>
 </html>
